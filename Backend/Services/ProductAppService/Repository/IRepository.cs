@@ -7,7 +7,7 @@ namespace ProductAppService.Repository
         where T : BaseEntity
     {
             Task<IEnumerable<T>> GetAllAsync();
-            Task<T> GetByIdAsync(int id);
+            Task<T?> GetByIdAsync(int id);
             T Add(T entity);
             T Update(T entity);
             Task<bool> DeleteAsync(int id);

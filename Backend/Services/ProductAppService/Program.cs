@@ -1,6 +1,4 @@
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using NuGet.Common;
 using ProductAppService;
 using ProductAppService.Aggregates;
 using ProductAppService.Repository;

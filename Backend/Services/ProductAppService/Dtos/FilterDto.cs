@@ -3,7 +3,7 @@
     public class FilterDto
     {
         public string PropertyName { get; set; }
-        public object Value { get; set; }
+        public dynamic Value { get; set; }
 
     }
 }

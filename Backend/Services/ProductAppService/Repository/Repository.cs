@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System;
 using ProductAppService.Aggregates;
 
 namespace ProductAppService.Repository
@@ -21,7 +20,7 @@ namespace ProductAppService.Repository
             return await _entities.ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T?> GetByIdAsync(int id)
         {
             return await _entities.SingleOrDefaultAsync(s => s.Id == id);
         }

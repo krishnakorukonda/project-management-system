@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Reflection.PortableExecutable;
-using System.Xml;
 
 namespace ProductAppService.Aggregates
 {
