@@ -14,14 +14,14 @@ namespace ProductAppService.Controllers
         private readonly IProductService _productService;
 
         public ProductsController(IProductService productService)
-        {            
+        {
             _productService = productService;
         }
 
         // GET: api/Products
         [HttpGet]
         public async Task<IReadOnlyCollection<ProductDto>> GetProducts()
-        {            
+        {
             return await _productService.GetProducts();
         }
 
@@ -41,7 +41,7 @@ namespace ProductAppService.Controllers
         // PUT: api/Products/5
         [HttpPut("{id}")]
         public async Task<ProductDto> PutProduct(UpdateProductCommand updateProductCommand)
-        {            
+        {
             return await _productService.UpdateProduct(updateProductCommand);
         }
 
@@ -55,9 +55,31 @@ namespace ProductAppService.Controllers
         // DELETE: api/Products/5
         [HttpDelete("{id}")]
         public async Task<bool> DeleteProduct(int id)
-        {            
+        {
             return await _productService.DeleteProductAsync(id);
         }
 
+
+        //    [Route("/error-development")]
+        //    public IActionResult HandleErrorDevelopment(
+        //[FromServices] IHostEnvironment hostEnvironment)
+        //    {
+        //        if (!hostEnvironment.IsDevelopment())
+        //        {
+        //            return NotFound();
+        //        }
+
+        //        var exceptionHandlerFeature =
+        //            HttpContext.Features.Get<IExceptionHandlerFeature>()!;
+
+        //        return Problem(
+        //            detail: exceptionHandlerFeature.Error.StackTrace,
+        //            title: exceptionHandlerFeature.Error.Message);
+        //    }
+
+        //    [ApiExplorerSettings(IgnoreApi = true)]
+        //    [Route("/error")]
+        //    public IActionResult HandleError() =>
+        //        Problem();
     }
 }

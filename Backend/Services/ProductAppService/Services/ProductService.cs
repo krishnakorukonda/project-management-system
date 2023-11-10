@@ -4,6 +4,7 @@ using ProductAppService.Commands;
 using ProductAppService.Dtos;
 using ProductAppService.Repository;
 using System.Linq.Expressions;
+using System.Text.Json;
 
 namespace ProductAppService.Services
 {
@@ -11,11 +12,14 @@ namespace ProductAppService.Services
     {
         private readonly IRepository<Product> _productRepository;
         private readonly IMapper _mapper;
-        public ProductService(IRepository<Product> productRepository , IMapper mapper)
+
+        public ProductService(IRepository<Product> productRepository, IMapper mapper)
         {
             _productRepository = productRepository;
             _mapper = mapper;
+            //_logger = logger;
         }
+
         public async Task<ProductDto> CreateProduct(CreateProductCommand createProductCommand)
         {
             var product = _mapper.Map<Product>(createProductCommand);
@@ -23,12 +27,12 @@ namespace ProductAppService.Services
 
             await _productRepository.SaveChangesAsync();
 
-            var addedProduct =  await _productRepository.GetByIdAsync(product.Id);
-            
+            var addedProduct = await _productRepository.GetByIdAsync(product.Id);
+
             return _mapper.Map<ProductDto>(addedProduct);
         }
 
-        public async Task< bool> DeleteProductAsync(int productId)
+        public async Task<bool> DeleteProductAsync(int productId)
         {
             return await _productRepository.DeleteAsync(productId);
         }
@@ -41,61 +45,96 @@ namespace ProductAppService.Services
 
             await _productRepository.SaveChangesAsync();
 
-            return _mapper.Map<ProductDto>(savedEntity);            
+            return _mapper.Map<ProductDto>(savedEntity);
         }
 
-     
-        public async Task< ProductDto> GetProductById(int id)
+
+        public async Task<ProductDto> GetProductById(int id)
         {
             return _mapper.Map<ProductDto>(await _productRepository.GetByIdAsync(id));
         }
 
         public async Task<IReadOnlyCollection<ProductDto>> GetProducts()
-        {            
+        {
             var products = await _productRepository.GetAllAsync();
-            return products.Select(p=> _mapper.Map<ProductDto>(p)).ToList();
+            return products.Select(p => _mapper.Map<ProductDto>(p)).ToList();
         }
 
         public async Task<IReadOnlyCollection<ProductDto>> SearchQuery(SearchQueryDto searchQueryDto)
         {
-            var lambdaExp = LambdaExpressionGenerator.GenerateFilterExpression<Product>(searchQueryDto.Filter.PropertyName, searchQueryDto.Filter.Value);
+            searchQueryDto.Filter.FilteredProperties.ForEach(s => { s.Value = GetIntValue(s.Value); });
 
-            var prods = await _productRepository.FindByConditionAsync(lambdaExp);
+            if (searchQueryDto.Filter.FilteredProperties.All(s => (int)s.Value == 0))
+            {
+                return await GetProducts();
+            }
+            else
+            {
+                var prods = await _productRepository
+                    .FindByConditionAsync(
+                        LambdaExpressionGenerator.GenerateFilterExpression<Product>(
+                            searchQueryDto.Filter.FilteredProperties));
 
-            return prods.Select(new Func<Product, ProductDto>(p => _mapper.Map<ProductDto>(p))).ToList();
+                return prods.Select((p => _mapper.Map<ProductDto>(p))).ToList();
+            }
+        }
+
+        private int GetIntValue(object categoryFilterValue)
+        {
+            if (categoryFilterValue is JsonElement el && el.ValueKind == JsonValueKind.Number)
+            {
+                return el.GetInt32();
+            }
+
+            return 0;
         }
     }
 
     public static class LambdaExpressionGenerator
     {
-        public static Expression<Func<T, bool>> GenerateFilterExpression<T>(string propertyName, object propertyValue)
+        public static Expression<Func<T, bool>> GenerateFilterExpression<T>(List<PropertyFilter> filters)
         {
             var parameter = Expression.Parameter(typeof(T), "x");
+
+            var filterExps = filters
+                .Where(e => (int)e.Value > 0)
+                .Select(e => EqualBinaryExpression<T>(e.PropertyName, e.Value, parameter))
+                .ToList();
+
+            return CombineExpressions(filterExps, ExpressionType.And);
+        }
+
+        private static Expression<Func<T, bool>> EqualBinaryExpression<T>(string propertyName, object propertyValue,
+            ParameterExpression parameter)
+        {
             var property = Expression.Property(parameter, propertyName);
-            //var propertyType = ((PropertyInfo)property.Member).PropertyType;
-            //var converter = TypeDescriptor.GetConverter(propertyType); // 1
-            //var propertyValue1 = converter.ConvertFrom(propertyValue); // 3
-            //var convertedValue = (propertyType.GetType())propertyValue; 
+
             var constant = Expression.Constant(propertyValue);
 
             var body = Expression.Equal(property, constant);
-
             return Expression.Lambda<Func<T, bool>>(body, parameter);
         }
 
-        // private static object ConvertValue(Type targetType, object value)
-        // {
-        //     // Handle conversion based on the actual types involved
-        //     if (targetType == typeof(JsonElement))
-        //     {
-        //         // Extract the int value from JsonElement
-        //         return ((JsonElement)value).GetInt32();
-        //     }
-        //
-        //     // Add more conversion logic as needed
-        //
-        //     // If no specific conversion is needed, return the original value
-        //     return value;
-        // }
-    } 
+        private static Expression<Func<T, bool>> CombineExpressions<T>(
+            List<Expression<Func<T, bool>>> expressions,
+            ExpressionType operation)
+        {
+            if (expressions == null || expressions.Count == 0)
+            {
+                throw new ArgumentException("Expression list is empty");
+            }
+
+            ParameterExpression parameter = expressions[0].Parameters[0];
+
+            Expression combinedExpression = expressions[0].Body;
+
+            for (int i = 1; i < expressions.Count; i++)
+            {
+                // Apply the logical operation (AND or OR) between expressions
+                combinedExpression = Expression.MakeBinary(operation, combinedExpression, expressions[i].Body);
+            }
+
+            return Expression.Lambda<Func<T, bool>>(combinedExpression, parameter);
+        }
+    }
 }

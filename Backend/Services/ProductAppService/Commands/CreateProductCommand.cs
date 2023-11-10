@@ -1,7 +1,6 @@
 ﻿namespace ProductAppService.Commands
 {
-    public class CreateProductCommand:ProductCommandBase
+    public class CreateProductCommand : ProductCommandBase
     {
-
     }
 }

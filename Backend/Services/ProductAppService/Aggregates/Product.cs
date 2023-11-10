@@ -1,7 +1,7 @@
 ﻿namespace ProductAppService.Aggregates
 {
-    public class Product: BaseEntity
-    {        
+    public class Product : BaseEntity
+    {
         public int CategoryId { get; set; }
         public int SubCategoryId { get; set; }
 

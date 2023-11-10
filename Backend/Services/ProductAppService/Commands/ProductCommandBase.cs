@@ -1,7 +1,7 @@
 ﻿namespace ProductAppService.Commands
 {
     public class ProductCommandBase
-    {        
+    {
         public int CategoryId { get; set; }
         public int SubCategoryId { get; set; }
         public int Quantity { get; set; }

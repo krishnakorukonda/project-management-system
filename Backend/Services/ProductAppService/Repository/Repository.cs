@@ -28,7 +28,7 @@ namespace ProductAppService.Repository
         public T Add(T entity)
         {
             _entities.Add(entity);
-            
+
             return entity;
         }
 
@@ -43,7 +43,7 @@ namespace ProductAppService.Repository
         }
 
         public T Update(T entity)
-        {                        
+        {
             _entities.Update(entity);
 
             return entity;

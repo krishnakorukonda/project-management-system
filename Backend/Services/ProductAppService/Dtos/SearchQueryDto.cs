@@ -2,7 +2,6 @@
 {
     public class SearchQueryDto
     {
-        public FilterDto Filter { get; set; }       
+        public FilterDto Filter { get; set; }
     }
-    
 }

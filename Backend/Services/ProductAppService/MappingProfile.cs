@@ -13,7 +13,6 @@ namespace ProductAppService
             CreateMap<Product, ProductDto>();
             CreateMap<CreateProductCommand, Product>();
             CreateMap<UpdateProductCommand, Product>();
-
         }
     }
 }
