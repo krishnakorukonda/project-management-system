@@ -25,9 +25,9 @@ namespace ProductAppService.Controllers
 
         // GET: api/Products
         [HttpGet("{id}/subcategories")]
-        public async Task<IReadOnlyCollection<SubCategoryDto>> GetSubCategoriesBasedOnCategoryId(int categoryId)
+        public async Task<IReadOnlyCollection<SubCategoryDto>> GetSubCategoriesBasedOnCategoryId(int id)
         {
-            return await _categoryService.GetSubCategories(categoryId);
+            return await _categoryService.GetSubCategories(id);
         }
     }
 }

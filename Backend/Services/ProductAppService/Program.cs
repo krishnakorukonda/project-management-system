@@ -21,6 +21,9 @@ var mapperConfig = new MapperConfiguration(mc => { mc.AddProfile(new MappingProf
 IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IRepository<Category>, Repository<Category>>();
+builder.Services.AddScoped<IRepository<SubCategory>, Repository<SubCategory>>();
 builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
 
 builder.Services.AddDbContext<ProductsDbContext>();
