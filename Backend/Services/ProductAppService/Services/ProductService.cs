@@ -81,11 +81,13 @@ namespace ProductAppService.Services
 
         private int GetIntValue(object categoryFilterValue)
         {
-            if (categoryFilterValue is JsonElement el && el.ValueKind == JsonValueKind.Number)
+            if (categoryFilterValue is JsonElement el)
             {
-                return el.GetInt32();
+                if (el.TryGetInt32(out int result))
+                {
+                    return result;
+                }
             }
-
             return 0;
         }
     }

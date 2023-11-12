@@ -8,6 +8,16 @@ using ProductAppService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
@@ -29,6 +39,8 @@ builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
 builder.Services.AddDbContext<ProductsDbContext>();
 
 var app = builder.Build();
+
+app.UseCors();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

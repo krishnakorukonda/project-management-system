@@ -4,8 +4,8 @@ import { getbacbaseUrl } from "../../../globals";
 function Search(props: any) {
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
-  const [selectCategory, setselectedCategory] = useState([]);
-  const [selectSubCategory, setselectedSubCategory] = useState([]);
+  const [selectCategory, setselectedCategory] = useState(0);
+  const [selectSubCategory, setselectedSubCategory] = useState(0);
   //const onFilter =
 
   //   useEffect(() => {
@@ -21,10 +21,12 @@ function Search(props: any) {
   //   });
 
   useEffect(() => {
+    // setselectedCategory(0);
+    // setselectedSubCategory(0);
     fetch("https://localhost:7081/api/categories")
       .then((response) => response.json())
       .then((data: any) => {
-        console.log(data);
+        //console.log(data);
         setCategories(data);
         // props.onFilter({
         //   cagtegoryId: selectCategory,
@@ -34,7 +36,7 @@ function Search(props: any) {
       .catch((err) => {
         console.log(err);
       });
-  });
+  }, []);
 
   const onCategorySelected = (e: any) => {
     setselectedCategory(e.target.value);
@@ -44,12 +46,13 @@ function Search(props: any) {
     )
       .then((response) => response.json())
       .then((data: any) => {
-        console.log(data);
+        //console.log(data);
+        setselectedCategory(e.target.value);
         setSubCategories(data);
-        // props.onFilter({
-        //   cagtegoryId: selectCategory,
-        //   subCategoryId: selectSubCategory,
-        // });
+        props.onFilter({
+          categoryId: e.target.value,
+          subCategoryId: selectSubCategory,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -58,6 +61,10 @@ function Search(props: any) {
 
   const onSubCategoryChanged = (e: any) => {
     setselectedSubCategory(e.target.value);
+    props.onFilter({
+      categoryId: selectCategory,
+      subCategoryId: e.target.value,
+    });
   };
 
   return (

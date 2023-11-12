@@ -1,19 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./list.css";
 
-function ListProducts() {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    fetch("https://localhost:7081/api/products")
-      .then((response) => response.json())
-      .then((data: any) => {
-        console.log(data);
-        setProducts(data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, []);
+function ListProducts(props: any) {
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -32,12 +20,18 @@ function ListProducts() {
               Price
             </th>
             <th scope="col" className="px-6 py-3">
+              Category Id
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Sub CategoryId
+            </th>
+            <th scope="col" className="px-6 py-3">
               <span className="sr-only">Edit</span>
             </th>
           </tr>
         </thead>
         <tbody>
-          {products.map((product: any) => {
+          {props.products.map((product: any) => {
             return (
               <tr
                 className={
@@ -57,6 +51,8 @@ function ListProducts() {
                 <td className="px-6 py-4">{product.description}</td>
                 <td className="px-6 py-4">{product.quantity}</td>
                 <td className="px-6 py-4">{product.price}</td>
+                <td className="px-6 py-4">{product.categoryId}</td>
+                <td className="px-6 py-4">{product.subCategoryId}</td>
                 <td className="px-6 py-4 text-right space-x-2">
                   <a
                     href="#"
