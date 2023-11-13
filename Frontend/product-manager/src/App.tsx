@@ -70,7 +70,7 @@ function App() {
       <div className="grid grid-rows-20 gap -10 py-5">
         <div className="row-span-1 ">
           <h1 className="text-center mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
-            Products Display Application
+            Products Manager Application
           </h1>
         </div>
         <div className="row-span-19 px-4 py-4">
