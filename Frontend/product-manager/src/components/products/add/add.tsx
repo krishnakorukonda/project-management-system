@@ -3,6 +3,8 @@ import { Product } from "../../../models/product";
 import { getbackendbaseUrl } from "../../../globals";
 import { Category } from "../../../models/category";
 import { SubCategory } from "../../../models/subCategory";
+import { FormInput } from "./formInput";
+import { FormInputSelect } from "./formInputSelect";
 
 export default function AddProduct(props: any) {
   const [showModal, setShowModal] = React.useState(false);
@@ -78,6 +80,7 @@ export default function AddProduct(props: any) {
   };
 
   const onSubCategoryChanged = (e: any) => {
+    console.log("came to sub cates");
     setcurrentProduct({ ...currentProduct, subCategoryId: e.target.value });
   };
 
@@ -152,134 +155,56 @@ export default function AddProduct(props: any) {
                   <p className="my-4 text-blueGray-500 text-lg leading-relaxed"></p>
 
                   <form className="w-full max-w-sm">
-                    <div className="md:flex md:items-center mb-6">
-                      <div className="md:w-1/3">
-                        <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                          Product Code
-                        </label>
-                      </div>
-                      <div className="md:w-2/3">
-                        <input
-                          className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                          id="inline-full-name"
-                          type="text"
-                          value={currentProduct.productCode}
-                          onChange={(e) => handleChange(e, "productCode")}
-                        ></input>
-                      </div>
-                    </div>
+                    <FormInput
+                      value={currentProduct.productCode}
+                      handleChange={handleChange}
+                      label="Product Code"
+                      name="productCode"
+                    />
 
-                    <div className="md:flex md:items-center mb-6">
-                      <div className="md:w-1/3">
-                        <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                          Product Name
-                        </label>
-                      </div>
-                      <div className="md:w-2/3">
-                        <input
-                          className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                          id="inline-full-name"
-                          type="text"
-                          value={currentProduct.name}
-                          onChange={(e) => handleChange(e, "name")}
-                        ></input>
-                      </div>
-                    </div>
+                    <FormInput
+                      value={currentProduct.name}
+                      handleChange={handleChange}
+                      label="Product Name"
+                      name="name"
+                    />
 
-                    <div className="md:flex md:items-center mb-6">
-                      <div className="md:w-1/3">
-                        <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                          Description
-                        </label>
-                      </div>
-                      <div className="md:w-2/3">
-                        <input
-                          className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                          id="inline-full-name"
-                          type="text"
-                          value={currentProduct.description}
-                          onChange={(e) => handleChange(e, "description")}
-                        ></input>
-                      </div>
-                    </div>
+                    <FormInput
+                      value={currentProduct.description}
+                      handleChange={handleChange}
+                      label="Description"
+                      name="description"
+                    />
 
-                    <div className="md:flex md:items-center mb-6">
-                      <div className="md:w-1/3">
-                        <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                          Quantity
-                        </label>
-                      </div>
-                      <div className="md:w-2/3">
-                        <input
-                          className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                          id="inline-full-name"
-                          type="text"
-                          value={currentProduct.quantity}
-                          onChange={(e) => handleChange(e, "quantity")}
-                        ></input>
-                      </div>
-                    </div>
+                    <FormInput
+                      value={currentProduct.quantity}
+                      handleChange={handleChange}
+                      label="Quantity"
+                      name="quantity"
+                    />
 
-                    <div className="md:flex md:items-center mb-6">
-                      <div className="md:w-1/3">
-                        <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                          Price
-                        </label>
-                      </div>
-                      <div className="md:w-2/3">
-                        <input
-                          className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                          id="inline-full-name"
-                          type="text"
-                          value={currentProduct.price}
-                          onChange={(e) => handleChange(e, "price")}
-                        ></input>
-                      </div>
-                    </div>
+                    <FormInput
+                      value={currentProduct.price}
+                      handleChange={handleChange}
+                      label="Price"
+                      name="price"
+                    />
 
-                    <div className="md:flex md:items-center mb-6">
-                      <div className="md:w-1/3">
-                        <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                          Category
-                        </label>
-                      </div>
-                      <div className="md:w-2/3">
-                        <select
-                          id="categories"
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                          onChange={onCategorySelected}
-                          value={currentProduct.categoryId}
-                        >
-                          {categories.map((category: any) => (
-                            <option key={category.id} value={category.id}>
-                              {category.categoryName}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
+                    <FormInputSelect
+                      value={currentProduct.categoryId}
+                      handleChange={onCategorySelected}
+                      label="Category"
+                      propName="categoryName"
+                      values={categories}
+                    />
 
-                    <div className="md:flex md:items-center mb-6">
-                      <div className="md:w-1/3">
-                        <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                          SubCategory
-                        </label>
-                      </div>
-                      <div className="md:w-2/3">
-                        <select
-                          id="subcategories"
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                          onChange={onSubCategoryChanged}
-                          value={currentProduct.subCategoryId}
-                        >
-                          {subCategories.map((subcategory: any) => (
-                            <option key={subcategory.id} value={subcategory.id}>
-                              {subcategory.subCategoryName}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
+                    <FormInputSelect
+                      value={currentProduct.subCategoryId}
+                      handleChange={onSubCategoryChanged}
+                      label="SubCategory"
+                      propName="subCategoryName"
+                      values={subCategories}
+                    />
                   </form>
                 </div>
                 {/*footer*/}

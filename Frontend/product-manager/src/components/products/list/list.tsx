@@ -64,12 +64,20 @@ function ListProducts(props: any) {
                 >
                   {product.name}
                 </th>
-                <td className="px-6 py-4">{product.description}</td>
-                <td className="px-6 py-4">{product.quantity}</td>
-                <td className="px-6 py-4">{product.price}</td>
-                <td className="px-6 py-4">{product.categoryId}</td>
-                <td className="px-6 py-4">{product.subCategoryId}</td>
-                <td className="px-6 py-4">
+                <td className="px-6 py-4 dark:text-white">
+                  {product.description}
+                </td>
+                <td className="px-6 py-4 dark:text-white">
+                  {product.quantity}
+                </td>
+                <td className="px-6 py-4 dark:text-white">{product.price}</td>
+                <td className="px-6 py-4 dark:text-white">
+                  {product.categoryId}
+                </td>
+                <td className="px-6 py-4 dark:text-white">
+                  {product.subCategoryId}
+                </td>
+                <td className="px-6 py-4 dark:text-white">
                   <img alt="preview" src={product.ImageUrl}></img>
                 </td>
                 <td className="px-6 py-4 text-right space-x-2">

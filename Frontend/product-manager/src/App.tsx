@@ -67,9 +67,11 @@ function App() {
 
   return (
     <>
-      <div className="grid grid-rows-20 gap -10">
+      <div className="grid grid-rows-20 gap -10 py-5">
         <div className="row-span-1 ">
-          <h1 className="text-center">Products Display Application</h1>
+          <h1 className="text-center mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
+            Products Display Application
+          </h1>
         </div>
         <div className="row-span-19 px-4 py-4">
           <div className="grid grid-cols-8 bg-red-100 gap-2">

@@ -30,7 +30,7 @@ function Search(props: any) {
         setSubCategories(data);
         props.onFilter({
           categoryId: parseInt(e.target.value),
-          subCategoryId: selectSubCategory,
+          subCategoryId: 0,
         });
       })
       .catch((err) => {
