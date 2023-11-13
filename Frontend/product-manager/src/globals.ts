@@ -1,1 +1,1 @@
-export const getbacbaseUrl = () => "https://localhost:7081/";
+export const getbackendbaseUrl = () => "https://localhost:7081";

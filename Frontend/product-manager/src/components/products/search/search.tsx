@@ -1,37 +1,17 @@
 import { useEffect, useState } from "react";
-import { getbacbaseUrl } from "../../../globals";
+import { getbackendbaseUrl } from "../../../globals";
 
 function Search(props: any) {
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
-  const [selectCategory, setselectedCategory] = useState(0);
-  const [selectSubCategory, setselectedSubCategory] = useState(0);
-  //const onFilter =
-
-  //   useEffect(() => {
-  //     fetch("https://localhost:7081/api/products")
-  //       .then((response) => response.json())
-  //       .then((data: any) => {
-  //         console.log(data);
-  //         setCategories(data);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   });
+  const [selectCategory, setselectedCategory] = useState<number>(0);
+  const [selectSubCategory, setselectedSubCategory] = useState<number>(0);
 
   useEffect(() => {
-    // setselectedCategory(0);
-    // setselectedSubCategory(0);
     fetch("https://localhost:7081/api/categories")
       .then((response) => response.json())
       .then((data: any) => {
-        //console.log(data);
         setCategories(data);
-        // props.onFilter({
-        //   cagtegoryId: selectCategory,
-        //   subCategoryId: selectSubCategory,
-        // });
       })
       .catch((err) => {
         console.log(err);
@@ -46,11 +26,10 @@ function Search(props: any) {
     )
       .then((response) => response.json())
       .then((data: any) => {
-        //console.log(data);
-        setselectedCategory(e.target.value);
+        setselectedCategory(parseInt(e.target.value));
         setSubCategories(data);
         props.onFilter({
-          categoryId: e.target.value,
+          categoryId: parseInt(e.target.value),
           subCategoryId: selectSubCategory,
         });
       })
@@ -60,26 +39,25 @@ function Search(props: any) {
   };
 
   const onSubCategoryChanged = (e: any) => {
-    setselectedSubCategory(e.target.value);
+    setselectedSubCategory(parseInt(e.target.value));
     props.onFilter({
       categoryId: selectCategory,
-      subCategoryId: e.target.value,
+      subCategoryId: parseInt(e.target.value),
     });
   };
 
   return (
     <div>
-      Search goes here..
       <span>
         <label
           htmlFor="categories"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray py-2 px-2"
         >
           Select Category
         </label>
         <select
           id="categories"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 px-2"
           onChange={onCategorySelected}
         >
           <option value="0">All</option>
@@ -93,13 +71,13 @@ function Search(props: any) {
       <span>
         <label
           htmlFor="subcategories"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray py-2 px-2"
         >
           Select Sub Category
         </label>
         <select
           id="subcategories"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 px-2"
           onChange={onSubCategoryChanged}
         >
           <option value="0">All</option>

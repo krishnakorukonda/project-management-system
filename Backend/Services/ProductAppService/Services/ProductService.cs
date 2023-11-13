@@ -17,7 +17,6 @@ namespace ProductAppService.Services
         {
             _productRepository = productRepository;
             _mapper = mapper;
-            //_logger = logger;
         }
 
         public async Task<ProductDto> CreateProduct(CreateProductCommand createProductCommand)
